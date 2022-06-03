@@ -60,7 +60,6 @@ app.get("/callback", (req, res) => {
         "Basic " +
         new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64"),
     },
-    json: true,
   })
     .then((response) => {
       if (response.status === 200) {
@@ -79,6 +78,29 @@ app.get("/callback", (req, res) => {
       } else {
         res.send(response);
       }
+    })
+    .catch((err) => res.send(err));
+});
+
+app.get("/refresh_token", (req, res) => {
+  const { refresh_token } = req.query;
+
+  axios({
+    method: "post",
+    url: "https://accounts.spotify.com/api/token",
+    data: querystring.stringify({
+      grant_type: "refresh_token",
+      refresh_token: refresh_token,
+    }),
+    headers: {
+      "contet-type": "application/x-www-form-urlencoded",
+      Authorization:
+        "Basic " +
+        new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64"),
+    },
+  })
+    .then((response) => {
+      res.send(response.data);
     })
     .catch((err) => res.send(err));
 });
