@@ -34,13 +34,53 @@ app.get("/login", (req, res) => {
 
   const queryParams = querystring.stringify({
     client_id: CLIENT_ID,
-    response_type: "code",
     redirect_uri: REDIRECT_URI,
+    response_type: "code",
     scope: scope,
-    state: satate,
+    state: state,
   });
 
   res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
+});
+
+app.get("/callback", (req, res) => {
+  const code = req.query.code || null;
+
+  axios({
+    method: "post",
+    url: "https://accounts.spotify.com/api/token",
+    data: querystring.stringify({
+      code: code,
+      redirect_uri: REDIRECT_URI,
+      grant_type: "authorization_code",
+    }),
+    headers: {
+      "contet-type": "application/x-www-form-urlencoded",
+      Authorization:
+        "Basic " +
+        new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64"),
+    },
+    json: true,
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        const { access_token, token_type } = response.data;
+
+        axios
+          .get("https://api.spotify.com/v1/me", {
+            headers: {
+              Authorization: `${token_type} ${access_token}`,
+            },
+          })
+          .then((response) => {
+            res.send(response.data);
+          })
+          .catch((err) => res.send(err));
+      } else {
+        res.send(response);
+      }
+    })
+    .catch((err) => res.send(err));
 });
 
 const PORT = 8888;
