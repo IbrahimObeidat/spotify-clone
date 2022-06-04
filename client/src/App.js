@@ -3,13 +3,16 @@ import { accessToken, logout, getCurrentUserProfile } from "./api";
 import { catchErrors } from "./utils";
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
+import GlobalStyles from "./styles/GlobalStyles";
 
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
+const ScrollToTop = ({ children }) => {
+  const location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [location]);
+
+  return <>{children}</>;
 };
 
 const App = () => {
@@ -33,30 +36,40 @@ const App = () => {
         {!token ? (
           <a href="http://localhost:8888/login">Login to Spotify</a>
         ) : (
-          <Routes>
-            <ScrollToTop />
-            <Route
-              path="/"
-              element={
-                <>
-                  <button onClick={logout}>Logout</button>
-                  {profile && (
-                    <div>
-                      <h1>{profile.display_name}</h1>
-                      <p>{profile.followers.total}</p>
-                      {profile.images.length && profile.images[0].url && (
-                        <img src={profile.images[0].url} alt="Profile avatar" />
+          <>
+            <GlobalStyles />
+            <ScrollToTop>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <button onClick={logout}>Logout</button>
+                      {profile && (
+                        <div>
+                          <h1>{profile.display_name}</h1>
+                          <p>{profile.followers.total}</p>
+                          {profile.images.length && profile.images[0].url && (
+                            <img
+                              src={profile.images[0].url}
+                              alt="Profile avatar"
+                            />
+                          )}
+                        </div>
                       )}
-                    </div>
-                  )}
-                </>
-              }
-            ></Route>
-            <Route path="/top-artists" element={<h1>Top Artists</h1>}></Route>
-            <Route path="/top-tracks" element={<h1>Top Tracks</h1>}></Route>
-            <Route path="/playlists" element={<h1>Playlists</h1>}></Route>
-            <Route path="/playlist/:id" element={<h1>Playlist</h1>}></Route>
-          </Routes>
+                    </>
+                  }
+                ></Route>
+                <Route
+                  path="/top-artists"
+                  element={<h1>Top Artists</h1>}
+                ></Route>
+                <Route path="/top-tracks" element={<h1>Top Tracks</h1>}></Route>
+                <Route path="/playlists" element={<h1>Playlists</h1>}></Route>
+                <Route path="/playlist/:id" element={<h1>Playlist</h1>}></Route>
+              </Routes>
+            </ScrollToTop>
+          </>
         )}
       </header>
     </div>
