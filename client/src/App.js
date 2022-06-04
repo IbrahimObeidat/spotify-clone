@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { accessToken, logout, getCurrentUserProfile } from "./api";
 import { catchErrors } from "./utils";
-import "./App.css";
-import { Routes, Route, useLocation } from "react-router-dom";
-import GlobalStyles from "./styles/GlobalStyles";
+import { Login } from "./pages";
+import { GlobalStyles } from "./styles";
 
 const ScrollToTop = ({ children }) => {
   const location = useLocation();
@@ -32,12 +32,12 @@ const App = () => {
 
   return (
     <div className="App">
+      <GlobalStyles />
       <header className="App-header">
         {!token ? (
-          <a href="http://localhost:8888/login">Login to Spotify</a>
+          <Login />
         ) : (
           <>
-            <GlobalStyles />
             <ScrollToTop>
               <Routes>
                 <Route
