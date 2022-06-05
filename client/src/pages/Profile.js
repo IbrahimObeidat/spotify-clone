@@ -7,7 +7,12 @@ import {
   getTopTracks,
 } from "../api";
 import { StyledHeader } from "../styles";
-import { SectionWrapper, ArtistsGrid, TrackList } from "../components";
+import {
+  SectionWrapper,
+  ArtistsGrid,
+  TrackList,
+  PlaylistsGrid,
+} from "../components";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -66,7 +71,7 @@ const Profile = () => {
         </StyledHeader>
       )}
 
-      {topArtists && topTracks && (
+      {topArtists && topTracks && playlists && (
         <main>
           <SectionWrapper
             title="Top artists of all time"
@@ -80,6 +85,10 @@ const Profile = () => {
             seeAllLink="/top-tracks"
           >
             <TrackList tracks={topTracks.items.slice(0, 10)} />
+          </SectionWrapper>
+
+          <SectionWrapper title="Playlists" seeAllLink="/playlists">
+            <PlaylistsGrid playlists={playlists.items.slice(0, 10)} />
           </SectionWrapper>
         </main>
       )}
