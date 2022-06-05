@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { accessToken, logout, getCurrentUserProfile } from "./api";
-import { catchErrors } from "./utils";
-import { Login } from "./pages";
+import { accessToken, logout } from "./api";
+import { Login, Profile } from "./pages";
 import { GlobalStyles } from "./styles";
 import styled from "styled-components";
 
@@ -34,17 +33,9 @@ const ScrollToTop = ({ children }) => {
 
 const App = () => {
   const [token, setToken] = useState(null);
-  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     setToken(accessToken);
-
-    const fetchData = async () => {
-      const { data } = await getCurrentUserProfile();
-      setProfile(data);
-    };
-
-    catchErrors(fetchData());
   }, []);
 
   return (
@@ -58,25 +49,7 @@ const App = () => {
             <StyledLoginButton onClick={logout}>Logout</StyledLoginButton>
             <ScrollToTop>
               <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <>
-                      {profile && (
-                        <div>
-                          <h1>{profile.display_name}</h1>
-                          <p>{profile.followers.total}</p>
-                          {profile.images.length && profile.images[0].url && (
-                            <img
-                              src={profile.images[0].url}
-                              alt="Profile avatar"
-                            />
-                          )}
-                        </div>
-                      )}
-                    </>
-                  }
-                ></Route>
+                <Route path="/" element={<Profile />}></Route>
                 <Route
                   path="/top-artists"
                   element={<h1>Top Artists</h1>}
