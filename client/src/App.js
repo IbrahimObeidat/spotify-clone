@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { accessToken, logout } from "./api";
-import { Login, Profile } from "./pages";
+import { Login, Profile, TopArtists } from "./pages";
 import { GlobalStyles } from "./styles";
 import styled from "styled-components";
 
@@ -50,10 +50,7 @@ const App = () => {
             <ScrollToTop>
               <Routes>
                 <Route path="/" element={<Profile />}></Route>
-                <Route
-                  path="/top-artists"
-                  element={<h1>Top Artists</h1>}
-                ></Route>
+                <Route path="/top-artists" element={<TopArtists />}></Route>
                 <Route path="/top-tracks" element={<h1>Top Tracks</h1>}></Route>
                 <Route path="/playlists" element={<h1>Playlists</h1>}></Route>
                 <Route path="/playlist/:id" element={<h1>Playlist</h1>}></Route>
