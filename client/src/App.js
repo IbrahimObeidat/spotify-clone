@@ -4,6 +4,23 @@ import { accessToken, logout, getCurrentUserProfile } from "./api";
 import { catchErrors } from "./utils";
 import { Login } from "./pages";
 import { GlobalStyles } from "./styles";
+import styled from "styled-components";
+
+const StyledLoginButton = styled.button`
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--white);
+  font-size: var(--fz-sm);
+  font-weight: 700;
+  border-radius: var(--border-radius-pill);
+  z-index: 10;
+  @media (min-width: 768px) {
+    right: var(--spacing-lg);
+  }
+`;
 
 const ScrollToTop = ({ children }) => {
   const location = useLocation();
@@ -38,13 +55,13 @@ const App = () => {
           <Login />
         ) : (
           <>
+            <StyledLoginButton onClick={logout}>Logout</StyledLoginButton>
             <ScrollToTop>
               <Routes>
                 <Route
                   path="/"
                   element={
                     <>
-                      <button onClick={logout}>Logout</button>
                       {profile && (
                         <div>
                           <h1>{profile.display_name}</h1>
