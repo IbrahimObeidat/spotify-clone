@@ -28,7 +28,9 @@ const generateRandomString = (length) => {
 };
 
 app.get("/login", (req, res) => {
-  const scope = "user-read-private user-read-email";
+  const scopes = ["user-read-private", "user-read-email", "user-top-read"].join(
+    " "
+  );
   const state = generateRandomString(16);
   res.cookie("spotify-auth-state", state);
 
@@ -36,7 +38,7 @@ app.get("/login", (req, res) => {
     client_id: CLIENT_ID,
     redirect_uri: REDIRECT_URI,
     response_type: "code",
-    scope: scope,
+    scope: scopes,
     state: state,
   });
 
