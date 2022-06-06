@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getCurrentUserPlaylists } from "../api";
-import { PlaylistsGrid, SectionWrapper } from "../components";
+import { Loader, PlaylistsGrid, SectionWrapper } from "../components";
 import { catchErrors } from "../utils";
 
 const Playlists = () => {
@@ -18,8 +18,10 @@ const Playlists = () => {
   return (
     <main>
       <SectionWrapper title="Playlists" breadcrumb="true">
-        {playlists && playlists.items && (
+        {playlists && playlists.items ? (
           <PlaylistsGrid playlists={playlists.items} />
+        ) : (
+          <Loader />
         )}
       </SectionWrapper>
     </main>
