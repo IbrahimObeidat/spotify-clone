@@ -3,14 +3,20 @@ const querystring = require("querystring");
 const axios = require("axios");
 const express = require("express");
 const app = express();
+const path = require("path");
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
+const FRONTEND_URI = process.env.FRONTEND_URI;
+const PORT = process.env.PORT || 8888;
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+// Priority serve any static files.
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 /**
  * Generates a random string containing numbers and letters
@@ -79,7 +85,7 @@ app.get("/callback", (req, res) => {
           refresh_token,
           expires_in,
         });
-        res.redirect(`http://localhost:3000/?${queryParams}`);
+        res.redirect(`${FRONTEND_URI}?${queryParams}`);
       } else {
         res.redirect(
           `/?${querystring.stringify({
@@ -114,9 +120,11 @@ app.get("/refresh_token", (req, res) => {
     .catch((err) => res.send(err));
 });
 
-const PORT = 8888;
+// All remaining requests return the React app, so it can handle routing.
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
+
 app.listen(PORT, () => {
   console.log(`Express app is listening at http://localhost:${PORT}`);
 });
-
-app.get;
