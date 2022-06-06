@@ -15,7 +15,7 @@ import {
   Loader,
 } from "../components";
 
-const Profile = () => {
+const Profile = ({ playingTrack, setPlayingTrack, isPlaying }) => {
   const [profile, setProfile] = useState(null);
   const [playlists, setPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
@@ -85,7 +85,12 @@ const Profile = () => {
             title="Top Tracks of All Time"
             seeAllLink="/top-tracks"
           >
-            <TrackList tracks={topTracks.items.slice(0, 10)} />
+            <TrackList
+              tracks={topTracks.items.slice(0, 10)}
+              playingTrack={playingTrack}
+              setPlayingTrack={setPlayingTrack}
+              isPlaying={isPlaying}
+            />
           </SectionWrapper>
 
           <SectionWrapper title="Playlists" seeAllLink="/playlists">

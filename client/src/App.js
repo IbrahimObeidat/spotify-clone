@@ -11,8 +11,9 @@ import {
 } from "./pages";
 import { GlobalStyles } from "./styles";
 import styled from "styled-components";
+import { Player } from "./components";
 
-const StyledLoginButton = styled.button`
+const StyledLogoutButton = styled.button`
   position: absolute;
   top: var(--spacing-sm);
   right: var(--spacing-md);
@@ -40,6 +41,8 @@ const ScrollToTop = ({ children }) => {
 
 const App = () => {
   const [token, setToken] = useState(null);
+  const [playingTrack, setPlayingTrack] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     setToken(accessToken);
@@ -53,16 +56,51 @@ const App = () => {
           <Login />
         ) : (
           <>
-            <StyledLoginButton onClick={logout}>Logout</StyledLoginButton>
+            <StyledLogoutButton onClick={logout}>Logout</StyledLogoutButton>
             <ScrollToTop>
               <Routes>
-                <Route path="/" element={<Profile />}></Route>
+                <Route
+                  path="/"
+                  element={
+                    <Profile
+                      playingTrack={playingTrack}
+                      setPlayingTrack={setPlayingTrack}
+                      isPlaying={isPlaying}
+                    />
+                  }
+                ></Route>
                 <Route path="/top-artists" element={<TopArtists />}></Route>
-                <Route path="/top-tracks" element={<TopTracks />}></Route>
+                <Route
+                  path="/top-tracks"
+                  element={
+                    <TopTracks
+                      playingTrack={playingTrack}
+                      setPlayingTrack={setPlayingTrack}
+                      isPlaying={isPlaying}
+                    />
+                  }
+                ></Route>
                 <Route path="/playlists" element={<Playlists />}></Route>
-                <Route path="/playlists/:id" element={<Playlist />}></Route>
+                <Route
+                  path="/playlists/:id"
+                  element={
+                    <Playlist
+                      playingTrack={playingTrack}
+                      setPlayingTrack={setPlayingTrack}
+                      isPlaying={isPlaying}
+                    />
+                  }
+                ></Route>
               </Routes>
             </ScrollToTop>
+            {token && playingTrack && (
+              <Player
+                token={token}
+                playingTrack={playingTrack}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+              />
+            )}
           </>
         )}
       </header>

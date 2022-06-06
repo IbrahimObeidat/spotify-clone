@@ -26,6 +26,9 @@ const StyledTrackList = styled.ul`
     &:focus {
       background-color: var(--dark-grey);
     }
+    &.active {
+      background-color: rgba(28, 185, 84, 0.6);
+    }
   }
 
   .track__item__num {
@@ -35,6 +38,35 @@ const StyledTrackList = styled.ul`
     font-size: var(--fz-md);
     font-variant-numeric: tabular-nums;
     overflow: visible;
+  }
+
+  .track__item:hover .track__item__num {
+    display: none;
+  }
+  .track__item.active .track__item__num {
+    display: none;
+  }
+
+  .track__item__play {
+    display: none;
+    align-items: center;
+    /* justify-content: flex-start; */
+    font-size: var(--fz-md);
+    font-variant-numeric: tabular-nums;
+    overflow: visible;
+    padding-left: 0.6em;
+  }
+  .track__item:hover .track__item__play {
+    display: inline;
+  }
+
+  .track__item.active .track__item__play {
+    display: ${(props) => (props.isPlaying ? "none" : "inline")};
+  }
+
+  .track__item__playing svg {
+    height: 1.4em;
+    width: 1.4em;
   }
 
   .track__item__title-group {

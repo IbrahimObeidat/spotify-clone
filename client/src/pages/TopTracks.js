@@ -8,7 +8,7 @@ import {
   Loader,
 } from "../components";
 
-const TopTracks = () => {
+const TopTracks = ({ playingTrack, setPlayingTrack, isPlaying }) => {
   const [topTracks, setTopTracks] = useState(null);
   const [activeRange, setActiveRange] = useState("long");
 
@@ -29,7 +29,12 @@ const TopTracks = () => {
               activeRange={activeRange}
               setActiveRange={setActiveRange}
             />
-            <TrackList tracks={topTracks.items} />
+            <TrackList
+              tracks={topTracks.items}
+              playingTrack={playingTrack}
+              setPlayingTrack={setPlayingTrack}
+              isPlaying={isPlaying}
+            />
           </SectionWrapper>
         ) : (
           <Loader />

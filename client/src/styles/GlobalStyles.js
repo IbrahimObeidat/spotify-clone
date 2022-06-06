@@ -117,6 +117,15 @@ const GlobalStyles = createGlobalStyle`
     text-align: center;
     padding: var(--spacing-xxl);
   }
+
+  .PlayerRSWP{
+    position: fixed;
+    bottom:0 ;
+  }
+
+  .PlayerRSWP ._ContentRSWP.__1xc0f9k{
+    padding: 1.2em 1em;
+  }
 `;
 
 export default GlobalStyles;

@@ -28,9 +28,16 @@ const generateRandomString = (length) => {
 };
 
 app.get("/login", (req, res) => {
-  const scopes = ["user-read-private", "user-read-email", "user-top-read"].join(
-    " "
-  );
+  const scopes = [
+    "user-read-private",
+    "user-read-email",
+    "user-top-read",
+    "streaming",
+    "user-library-read",
+    "user-library-modify",
+    "user-read-playback-state",
+    "user-modify-playback-state",
+  ].join(" ");
   const state = generateRandomString(16);
   res.cookie("spotify-auth-state", state);
 
