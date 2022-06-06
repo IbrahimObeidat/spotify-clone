@@ -1,4 +1,4 @@
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 const StyledTrackList = styled.ul`
   list-style: none;
